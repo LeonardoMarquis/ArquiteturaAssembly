@@ -1,0 +1,48 @@
+.data
+	vet1: .word 8, 4, 5, 3, 7, 6
+	tam: .word 6
+	espaco: .asciz " "
+.text
+main:
+	la t0, vet1
+	lw t1, tam
+	li t2, 0
+outer_loop:
+	sub t3, t1, t2
+	addi t3, t3, -1
+	blez t3, end_outer
+inner_loop:
+	lw a0, 0(t0)
+	lw a1, 4(t0)
+	
+	ble a0, a1, skip_swap
+	
+	#trocamos
+	sw a1, 0(t0)
+	sw a0, 4(t0)
+skip_swap:
+	addi t0, t0, 4
+	addi t4, t4, 1
+	blt t4, t3, inner_loop
+	
+	addi t2, t2, 1
+	j outer_loop
+end_outer:
+	# para impressao final
+	la s0, vet1
+	lw s1, tam
+	li s2, 0
+print_loop:
+	lw a0, 0(s0)
+	li, a7, 4
+	ecall
+	
+	addi s0, s0, 4
+	addi s2, s2, 1
+	blt s2, s1, print_loop
+	
+	li a7, 10	# para sair
+	ecall
+	  
+	
+	
